@@ -1,8 +1,0 @@
-{
-    "greeter": {
-        "welcome": {
-            "message": "Hello there!"
-        }
-    },
-    "errors.general.message": "Ooops, somethig went wrong!"
-}
