@@ -1,2 +1,8 @@
-node_modules
+.DS_Store
+.eslintcache
+
+.pnpm-store
+.vscode
 coverage
+dist
+node_modules
