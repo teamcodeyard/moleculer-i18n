@@ -1,0 +1,42 @@
+{
+  "name": "moleculer-i18n",
+  "version": "0.0.1",
+  "description": "I18n package for Moleculer framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teamcodeyard/moleculer-i18n.git"
+  },
+  "keywords": [
+    "moleculer",
+    "nodejs",
+    "microservice",
+    "javascript"
+  ],
+  "author": "iujlaki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/teamcodeyard/moleculer-i18n/issues"
+  },
+  "homepage": "https://github.com/teamcodeyard/moleculer-i18n#readme",
+  "dependencies": {
+    "jest": "^29.5.0",
+    "moleculer": "^0.14.29",
+    "node-polyglot": "^2.5.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "rootDir": "./src",
+    "roots": [
+      "../test"
+    ],
+    "coverageDirectory": "../coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ]
+  }
+}

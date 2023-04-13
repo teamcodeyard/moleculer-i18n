@@ -1,1 +1,1 @@
-# moleculer-i18n
+[![Moleculer logo](http://moleculer.services/images/banner.png)](https://github.com/moleculerjs/moleculer)
