@@ -40,7 +40,7 @@
     "coverage": "vitest --coverage",
     "lint:fix": "eslint --fix .",
     "lint": "eslint --cache .",
-    "release": "bumpp",
+    "release": "npx bumpp",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
