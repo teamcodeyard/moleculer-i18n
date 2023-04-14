@@ -1,6 +1,6 @@
 import type { ServiceSchema } from 'moleculer'
 
-import { I18nMixin } from '../../src'
+import { I18nMixin } from '~/index'
 
 export const mockSchema: ServiceSchema = {
   name: 'greeter',

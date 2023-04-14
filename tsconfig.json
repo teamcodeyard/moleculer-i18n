@@ -19,13 +19,11 @@
     "forceConsistentCasingInFileNames": true,
     // @tsconfig/node18
     "lib": [
-      "es2022"
+      "ES2022"
     ],
     "module": "ES2022",
-    "target": "es2022",
+    "target": "ES2022",
     "moduleResolution": "node",
-    //
-    "noImplicitThis": true,
     "types": [
       "@total-typescript/ts-reset",
       "vitest/globals"

@@ -16,12 +16,14 @@ describe('Default settings', () => {
     await broker.start()
   })
 
-  afterAll(() => broker.stop())
+  afterAll(async () => {
+    await broker.stop()
+  })
 
   it('should call `t` action and get proper translations', async () => {
     // Select existing action key would be more useful instead of this 🤔
     const actionName = 'greeter.welcome'
-    const response = await broker.call(actionName)
+    const response = await broker.call<string>(actionName)
 
     expect(response).toMatchInlineSnapshot('"en.greeter.welcome.message"')
   })

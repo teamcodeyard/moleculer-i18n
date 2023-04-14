@@ -1,23 +1,14 @@
 import { promises as fsp } from 'node:fs'
 import { basename } from 'node:path'
-import type { ServiceSchema, ServiceSettingSchema } from 'moleculer'
+import type { Context, ServiceSchema } from 'moleculer'
 import Polyglot from 'node-polyglot'
 import fg from 'fast-glob'
 
-interface I18nSettings<LanguageKey extends string> extends ServiceSettingSchema {
-  i18n: {
-    dirName: string
-    languages: Record<LanguageKey, string>
-    polyglot: Polyglot
-  }
-}
-
-type LanguageKeys =
-  | 'EN'
+import type { I18nSettings, LanguageKey } from './type'
 
 const MIXIN_NAME = 'I18nMixin'
 
-const settings: I18nSettings<LanguageKeys> = {
+const settings: I18nSettings<LanguageKey> = {
   i18n: {
     dirName: './mock/translations',
     languages: {
@@ -27,33 +18,34 @@ const settings: I18nSettings<LanguageKeys> = {
   },
 }
 
-export const I18nMixin: ServiceSchema<I18nSettings<LanguageKeys>> = {
+type TranslationMethodContext = Context<any, { locale: string }>
+
+export const I18nMixin: ServiceSchema<I18nSettings<LanguageKey>> = {
   name: MIXIN_NAME,
   settings,
   methods: {
-    // TODO: set method type with ServiceMethods somehow 🤔
-    t(ctx, key, interpolation) {
-      // TODO: how to set type here?
-      let { locale } = ctx.meta
-      const availableLanguages = Object.values(settings.i18n.languages)
+    t(ctx: TranslationMethodContext, key: string, interpolation: number | Polyglot.InterpolationOptions) {
+      const isLanguageAvailable = settings.i18n.languages[ctx.meta.locale as LanguageKey]
 
       // Set default language key
-      if (!availableLanguages.includes(locale))
-        locale = settings.i18n.languages.EN
+      if (!isLanguageAvailable)
+        ctx.meta.locale = settings.i18n.languages.EN
 
-      return settings.i18n.polyglot.t(`${locale}.${key}`, interpolation)
+      return settings.i18n.polyglot.t(`${ctx.meta.locale}.${key}`, interpolation)
     },
   },
   // TODO: how to handle promise errors?
   async started() {
+    const suffix = '.json'
+    const translations: Record<string, string> = {}
+
     try {
       // TODO: do we need to sort files?
-      const translationFiles = await fg(`${this.settings.i18n.dirName}/*.json`)
-      const translations: Record<string, string> = {}
+      const translationFiles = await fg(`${this.settings.i18n.dirName}/*${suffix}`)
 
       translationFiles.forEach(async (translation) => {
         const content = await fsp.readFile(translation, 'utf-8')
-        const language = basename(translation, '.json')
+        const language = basename(translation, suffix)
 
         translations[language] = String(JSON.parse(content))
 
@@ -61,6 +53,7 @@ export const I18nMixin: ServiceSchema<I18nSettings<LanguageKeys>> = {
       })
     }
     catch (error) {
+      // TODO: use moleculer logger
       console.error(error)
     }
   },
