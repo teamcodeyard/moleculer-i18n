@@ -1,11 +1,5 @@
 import { getPhrases } from '~/helpers/get-phrases'
 
-vi.mock('fast-glob', async () => {
-  const fg = await vi.importActual<typeof import('fast-glob')>('fast-glob')
-
-  return { ...fg, get: vi.fn() }
-})
-
 const mockLocales = {
   en: {
     'errors.general.message': 'Ooops, somethig went wrong!',
