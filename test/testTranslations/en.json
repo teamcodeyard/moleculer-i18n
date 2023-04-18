@@ -1,0 +1,9 @@
+{
+    "greeter": {
+        "welcome": {
+            "message": "Hello there!"
+        }
+    },
+    "errors.general.message": "Ooops, somethig went wrong!",
+    "greeter.farewell": "Good bye %{name}!"
+}
