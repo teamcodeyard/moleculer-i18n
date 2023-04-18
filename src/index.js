@@ -41,20 +41,20 @@ const I18nMixin = {
     settings: {
         i18n: {
             polyglot: new Polyglot(),
-            languages: { EN: 'en' },
+            languages: ['en'],
             dirName: "testTranslations"
         },
     },
     methods: {
         t(ctx, key, interpolation) {
-            const availableLanguage = Object.values(this.settings.i18n.languages);
+            const availableLanguages = this.settings.i18n.languages;
             let locale = ctx.meta.locale;
             if (
                 locale == null ||
                 locale == undefined ||
-                !availableLanguage.includes(locale)
+                !availableLanguages.includes(locale)
             ) {
-                locale = this.settings.i18n.languages.EN;
+                locale = "en";
             }
             return this.settings.i18n.polyglot.t(locale + "." + key, interpolation);
         },
