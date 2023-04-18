@@ -1,64 +1,34 @@
-import { promises as fsp } from 'node:fs'
-import { basename } from 'node:path'
-import type { Context, ServiceSchema } from 'moleculer'
-import Polyglot from 'node-polyglot'
-import fg from 'fast-glob'
+import type Polyglot from 'node-polyglot'
+import { type Context } from 'moleculer'
 
-import type { I18nSettings, LanguageKey } from './type'
+import type { I18nServiceSchema } from './types'
+import { getPhrases } from './helpers/get-phrases'
 
-const MIXIN_NAME = 'I18nMixin'
-
-const settings: I18nSettings<LanguageKey> = {
-  i18n: {
-    dirName: './test/mock/translations',
-    languages: {
-      EN: 'en',
-      ES: 'es',
+export const I18nMixin: I18nServiceSchema = {
+  name: 'I18nMixin',
+  settings: {
+    i18n: {
+      availableLocales: [
+        'en',
+        'es',
+      ],
+      fallbackLocale: 'en',
+      path: 'locales',
+      polyglot: null,
     },
-    polyglot: new Polyglot(),
   },
-}
-
-type TranslationMethodContext = Context<any, { locale: string }>
-
-export const I18nMixin: ServiceSchema<I18nSettings<LanguageKey>> = {
-  name: MIXIN_NAME,
-  settings,
   methods: {
-    t(ctx: TranslationMethodContext, key: string, interpolation: number | Polyglot.InterpolationOptions) {
-      const isLanguageAvailable = settings.i18n.languages[ctx.meta.locale as LanguageKey]
+    t(context: Context<unknown, { locale: string }>, key: string, interpolation: number | Polyglot.InterpolationOptions): string {
+      const localeExists = this.settings?.i18n.availableLocales.includes(context.meta.locale)
+      const locale = localeExists ? context.meta.locale : this.settings?.i18n.fallbackLocale
 
-      // Set default language key
-      if (!isLanguageAvailable)
-        ctx.meta.locale = settings.i18n.languages.EN
-
-      return settings.i18n.polyglot.t(`${ctx.meta.locale}.${key}`, interpolation)
+      return this.settings!.i18n.polyglot?.t(`${locale}.${key}`, interpolation) as string
     },
   },
-  // TODO: how to handle promise errors?
   async started() {
-    const translationFileSuffix = '.json'
+    // TODO: check fallback language file exists somewhere
+    const phrases = await getPhrases(this.settings.i18n.path)
 
-    try {
-      // TODO: do we need to sort files?
-      const translationFiles = await fg(`${this.settings.i18n.dirName}/*${translationFileSuffix}`)
-
-      const translations = await Promise.all(
-        translationFiles.map(async (translation) => {
-          const content = await fsp.readFile(translation, 'utf-8')
-          const language = basename(translation, translationFileSuffix)
-
-          return {
-            [language]: JSON.parse(content),
-          }
-        }),
-      )
-
-      this.settings.i18n.polyglot.extend(translations)
-    }
-    catch (error) {
-      // TODO: use moleculer logger
-      console.error(error)
-    }
+    this.settings.i18n.polyglot?.extend(phrases)
   },
 }

@@ -4,10 +4,10 @@ export default defineConfig({
   entry: [
     './src/index.ts',
   ],
-  format: ['cjs', 'esm'],
+  format: 'cjs',
   minify: true,
-  splitting: false,
-  sourcemap: true,
+  splitting: true,
+  sourcemap: false,
   clean: true,
   dts: true,
 })

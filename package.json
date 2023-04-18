@@ -1,8 +1,6 @@
 {
   "name": "moleculer-i18n",
-  "type": "module",
   "version": "0.0.1",
-  "private": true,
   "packageManager": "pnpm@8.2.0",
   "description": "I18n package for Moleculer framework",
   "author": "iujlaki",
@@ -24,13 +22,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "require": "./dist/index.cjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "files": [
     "./dist"
@@ -38,9 +34,11 @@
   "scripts": {
     "build": "tsup",
     "coverage": "vitest --coverage",
+    "dev": "npx tsx watch ./src/index.ts",
     "lint:fix": "eslint --fix .",
     "lint": "eslint --cache .",
-    "release": "npx bumpp",
+    "release": "npx bumpp && npm publish",
+    "prepublishOnly": "npm build",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
