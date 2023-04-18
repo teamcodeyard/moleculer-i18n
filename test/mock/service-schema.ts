@@ -11,13 +11,15 @@ export const mockSchema: ServiceSchema = {
   settings: {
     i18n: {
       dirName: './test/mock/translations',
+      languages: {
+        EN: 'en',
+        ES: 'es',
+      },
     },
   },
   actions: {
     welcome: {
       handler(ctx) {
-        ctx.meta.locale = 'es'
-
         // @ts-expect-error t function does not exists
         return this.t(ctx, 'greeter.welcome.message')
       },

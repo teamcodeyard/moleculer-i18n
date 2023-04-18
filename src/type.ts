@@ -10,3 +10,4 @@ export interface I18nSettings<LanguageKey extends string> {
 
 export type LanguageKey =
   | 'EN'
+  | 'ES'

@@ -10,9 +10,10 @@ const MIXIN_NAME = 'I18nMixin'
 
 const settings: I18nSettings<LanguageKey> = {
   i18n: {
-    dirName: './mock/translations',
+    dirName: './test/mock/translations',
     languages: {
       EN: 'en',
+      ES: 'es',
     },
     polyglot: new Polyglot(),
   },
@@ -36,21 +37,24 @@ export const I18nMixin: ServiceSchema<I18nSettings<LanguageKey>> = {
   },
   // TODO: how to handle promise errors?
   async started() {
-    const suffix = '.json'
-    const translations: Record<string, string> = {}
+    const translationFileSuffix = '.json'
 
     try {
       // TODO: do we need to sort files?
-      const translationFiles = await fg(`${this.settings.i18n.dirName}/*${suffix}`)
+      const translationFiles = await fg(`${this.settings.i18n.dirName}/*${translationFileSuffix}`)
 
-      translationFiles.forEach(async (translation) => {
-        const content = await fsp.readFile(translation, 'utf-8')
-        const language = basename(translation, suffix)
+      const translations = await Promise.all(
+        translationFiles.map(async (translation) => {
+          const content = await fsp.readFile(translation, 'utf-8')
+          const language = basename(translation, translationFileSuffix)
 
-        translations[language] = String(JSON.parse(content))
+          return {
+            [language]: JSON.parse(content),
+          }
+        }),
+      )
 
-        this.settings.i18n.polyglot.extend(translations)
-      })
+      this.settings.i18n.polyglot.extend(translations)
     }
     catch (error) {
       // TODO: use moleculer logger
