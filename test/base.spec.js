@@ -13,13 +13,16 @@ describe("Test with default settings", () => {
             mixins: [I18nMixin],
             settings: {
                 i18n: {
-                    dirName: "./test/testTranslations"
+                    dirName: "./test/testTranslations",
+                    languages: {
+                        EN: "en",
+                        ES: "es"
+                    }
                 }
             },
             actions: {
                 welcome: {
                     handler(ctx) {
-                        ctx.meta.locale = "es"
                         return this.t(ctx, 'greeter.welcome.message');
                     }
                 }
@@ -36,6 +39,16 @@ describe("Test with default settings", () => {
     it("should call t action and get proper translations", async () => {
         const response = await broker.call('greeter.welcome');
         expect(response).toEqual('Hello there!');
+    });
+    
+    it("should call t action and get default english translation", async () => {
+        const response = await broker.call('greeter.welcome', {}, {meta: {locale: "hu"}});
+        expect(response).toEqual('Hello there!');
+    });
+
+    it("should call t action and get missing translation key", async () => {
+        const response = await broker.call('greeter.welcome', {}, {meta: {locale: "es"}});
+        expect(response).toEqual('es.greeter.welcome.message');
     });
 
 });
