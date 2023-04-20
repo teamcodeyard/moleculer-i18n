@@ -8,8 +8,20 @@ export interface Translation {
 }
 
 export interface I18NSettings {
+  /**
+   *
+   * Directory name where locale files are stored.
+   */
   dirName: string
+  /**
+   *
+   * Available locale list.
+   */
   languages: string[]
+  /**
+   *
+   * Instance of translation service.
+   */
   polyglot: Polyglot
 }
 
