@@ -11,13 +11,18 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "checkJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "vitest/globals"
+    ]
   },
   "exclude": [
-    "./node_modules"
+    "./coverage",
+    "./dist",
+    "./node_modules",
   ]
 }

@@ -1,18 +1,17 @@
-"use strict";
+import Polyglot from "node-polyglot";
+import { promises as fsp } from "fs";
+import path from "path";
 
-const Polyglot = require("node-polyglot");
-const fsp = require("fs").promises;
-const path = require("path");
+import type { I18nServiceSchema, Translation } from "./types";
 
 /**
- * @description Read files synchronously from a folder, with natural sorting
- * @param {String} dir Absolute path to directory
- * @returns {Promise<Translation[]>} List of object, each object represent a file
- * structured like so: `{ filepath, name, ext, stat }`
+ * Read files synchronously from a folder, with natural sorting
+ *
+ * @param dir Absolute path to directory
+ * @returns List of object, each object represent a file structured like so: `{ filepath, name, ext, stat }`
  */
-async function readFilesSync(dir) {
-    /** @type {Translation[]} */
-    const files = [];
+async function readFilesSync(dir: string): Promise<Translation[]> {
+    const files: Translation[] = [];
     const dirs = await fsp.readdir(dir);
     for (let filename of dirs) {
         const name = path.parse(filename).name;
@@ -35,8 +34,7 @@ async function readFilesSync(dir) {
     return files;
 }
 
-/** @type {Partial<import("moleculer").ServiceSchema<{ i18n: I18NSettings }>>} */
-const I18nMixin = {
+export const I18nMixin: I18nServiceSchema = {
     name: "I18nMixin",
     settings: {
         i18n: {
@@ -46,16 +44,12 @@ const I18nMixin = {
         },
     },
     methods: {
-        /**
-         *
-         * @param {import("moleculer").Context<{}, { locale: string }>} ctx
-         * @param {string} key
-         * @param {import("node-polyglot").PolyglotOptions | number | undefined} interpolation
-         * @this {import("moleculer").Service<{ i18n: I18NSettings }>}
-         */
         t(ctx, key, interpolation) {
-            const availableLanguages = this.settings.i18n.languages;
             let locale = ctx.meta.locale;
+            if (!this.settings) {
+                return locale + "." + key;
+            }
+            const availableLanguages = this.settings.i18n.languages;
             if (!Boolean(locale) || !availableLanguages.includes(locale)) {
                 locale = "en";
             }
@@ -67,12 +61,10 @@ const I18nMixin = {
         for (let translation of files) {
             if (translation.filepath.split(".").pop() === "json") {
                 const content = await fsp.readFile(translation.filepath, "utf-8");
-                /** @type {Record<string, string>} */
-                const object = {};
+                const object: Record<string, string> = {};
                 object[translation.name] = JSON.parse(content);
                 this.settings.i18n.polyglot.extend(object);
             }
         };
     }
 };
-module.exports = I18nMixin;
