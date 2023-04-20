@@ -16,10 +16,8 @@
     "microservice",
     "javascript"
   ],
-  "author": "iujlaki",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/teamcodeyard/moleculer-i18n/issues"
+    "lint:fix": "eslint .",
+    "lint": "eslint --cache .",
   },
   "homepage": "https://github.com/teamcodeyard/moleculer-i18n#readme",
   "dependencies": {
@@ -28,9 +26,11 @@
     "node-polyglot": "^2.5.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.38.5",
     "@types/jest": "^29.5.1",
     "@types/node-polyglot": "^2.4.2",
     "@vitest/coverage-c8": "^0.30.1",
+    "eslint": "^8.38.0",
     "typescript": "^5.0.4",
     "vitest": "^0.30.1"
   }
