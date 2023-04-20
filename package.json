@@ -4,7 +4,7 @@
   "description": "I18n package for Moleculer framework",
   "main": "./src/index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "vitest --coverage --globals"
   },
   "repository": {
     "type": "git",
@@ -27,19 +27,11 @@
     "moleculer": "^0.14.29",
     "node-polyglot": "^2.5.0"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "rootDir": "./src",
-    "roots": [
-      "../test"
-    ],
-    "coverageDirectory": "../coverage",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ]
-  },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/node-polyglot": "^2.4.2",
+    "@vitest/coverage-c8": "^0.30.1",
     "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
   }
 }
