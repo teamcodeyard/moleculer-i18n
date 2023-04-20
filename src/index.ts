@@ -1,48 +1,45 @@
-import Polyglot from "node-polyglot";
-import { promises as fsp } from "fs";
+import { promises as fsp } from 'node:fs'
+import Polyglot from 'node-polyglot'
 
-import type { I18nServiceSchema } from "./types";
-import { readFilesSync } from "./utils/read-files-sync";
+import type { I18nServiceSchema } from './types'
+import { readFilesSync } from './utils/read-files-sync'
 
 export const I18nMixin: I18nServiceSchema = {
-    name: "I18nMixin",
-    settings: {
-        i18n: {
-            polyglot: new Polyglot(),
-            languages: ['en'],
-            dirName: "testTranslations"
-        },
+  name: 'I18nMixin',
+  settings: {
+    i18n: {
+      polyglot: new Polyglot(),
+      languages: ['en'],
+      dirName: 'testTranslations',
     },
-    methods: {
-        t({ meta }, key, interpolation) {
-            if (!this.settings) {
-                return meta.locale + "." + key;
-            }
+  },
+  methods: {
+    t({ meta }, key, interpolation) {
+      if (!this.settings)
+        return `${meta.locale}.${key}`
 
-            const { languages } = this.settings.i18n;
+      const { languages } = this.settings.i18n
 
-            if (!Boolean(meta.locale) || !languages.includes(meta.locale)) {
-                meta.locale = "en";
-            }
+      if (!meta.locale || !languages.includes(meta.locale))
+        meta.locale = 'en'
 
-            return this.settings.i18n.polyglot.t(meta.locale + "." + key, interpolation);
-        },
+      return this.settings.i18n.polyglot.t(`${meta.locale}.${key}`, interpolation)
     },
-    async started() {
-        // TODO: i18n is any, why?
-        const files = await readFilesSync(this.settings.i18n.dirName);
+  },
+  async started() {
+    // TODO: i18n is any, why?
+    const files = await readFilesSync(this.settings.i18n.dirName)
 
-        for (let translation of files) {
-            if (translation.filepath.split(".").pop() !== "json") {
-                continue;
-            }
+    for (const translation of files) {
+      if (translation.filepath.split('.').pop() !== 'json')
+        continue
 
-            const content = await fsp.readFile(translation.filepath, "utf-8");
-            const object: Record<string, string> = {};
+      const content = await fsp.readFile(translation.filepath, 'utf-8')
+      const object: Record<string, string> = {}
 
-            object[translation.name] = JSON.parse(content);
+      object[translation.name] = JSON.parse(content)
 
-            this.settings.i18n.polyglot.extend(object);
-        };
+      this.settings.i18n.polyglot.extend(object)
     }
-};
+  },
+}
