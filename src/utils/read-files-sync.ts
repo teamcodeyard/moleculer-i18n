@@ -4,6 +4,7 @@ import path from "path";
 import type { Translation } from "../types";
 
 /**
+ *
  * Read files synchronously from a folder, with natural sorting
  *
  * @param dir Absolute path to directory
@@ -26,14 +27,21 @@ export async function readFilesSync<T extends Translation>(dir: string): Promise
     files.push({ filepath, name } as T);
   };
 
-  files.sort((a, b) => {
-    // natural sort alphanumeric strings
-    // https://stackoverflow.com/a/38641281
-    return a.name.localeCompare(b.name, undefined, {
+  files.sort(naturalSortFactory<T>());
+
+  return files;
+}
+
+/**
+ * Natural sort alphanumeric strings.
+ *
+ * @see https://stackoverflow.com/a/38641281
+ */
+function naturalSortFactory<T extends Translation>(): ((previous: T, next: T) => number) | undefined {
+  return (previous, next) => {
+    return previous.name.localeCompare(next.name, undefined, {
       numeric: true,
       sensitivity: "base",
     });
-  });
-
-  return files;
+  };
 }
