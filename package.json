@@ -1,14 +1,17 @@
 {
   "name": "moleculer-i18n",
   "version": "0.0.1",
+  "packageManager": "pnpm@8.3.0",
   "description": "I18n package for Moleculer framework",
-  "main": "./src/index.js",
-  "scripts": {
-    "test": "vitest --coverage --globals"
-  },
+  "author": "iujlaki",
+  "license": "MIT",
+  "homepage": "https://github.com/teamcodeyard/moleculer-i18n#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/teamcodeyard/moleculer-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/teamcodeyard/moleculer-i18n/issues"
   },
   "keywords": [
     "moleculer",
@@ -16,10 +19,32 @@
     "microservice",
     "javascript"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist"
+  ],
+  "engines": {
+    "node": ">=16.14.2",
+    "pnpm": ">=8.2.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "npx tsx watch ./src/index.ts",
     "lint:fix": "eslint .",
     "lint": "eslint --cache .",
+    "prepublishOnly": "npm build",
+    "release": "npx bumpp && npm publish",
+    "test": "vitest --coverage --globals",
+    "typecheck": "tsc --noEmit"
   },
-  "homepage": "https://github.com/teamcodeyard/moleculer-i18n#readme",
   "dependencies": {
     "jest": "^29.5.0",
     "moleculer": "^0.14.29",
@@ -31,6 +56,7 @@
     "@types/node-polyglot": "^2.4.2",
     "@vitest/coverage-c8": "^0.30.1",
     "eslint": "^8.38.0",
+    "tsup": "^6.7.0",
     "typescript": "^5.0.4",
     "vitest": "^0.30.1"
   }
