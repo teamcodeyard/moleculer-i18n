@@ -1,8 +1,8 @@
 const { ServiceBroker } = require("moleculer");
 const I18nMixin = require("../src");
 
-
 describe("Test with default settings", () => {
+    /** @type {ServiceBroker} */
     let broker;
 
     beforeAll(async () => {
@@ -10,6 +10,7 @@ describe("Test with default settings", () => {
 
         broker.createService({
             name: "greeter",
+            // @ts-expect-error mixin has correct type
             mixins: [I18nMixin],
             settings: {
                 i18n: {
@@ -20,6 +21,7 @@ describe("Test with default settings", () => {
             actions: {
                 welcome: {
                     handler(ctx) {
+                        // @ts-expect-error t function exists
                         return this.t(ctx, 'greeter.welcome.message');
                     }
                 },
@@ -29,6 +31,7 @@ describe("Test with default settings", () => {
                     },
                     handler(ctx) {
                         const { name } = ctx.params;
+                        // @ts-expect-error t function exists
                         return this.t(ctx, 'greeter.farewell', { name });
                     }
                 }
@@ -62,5 +65,4 @@ describe("Test with default settings", () => {
         const response = await broker.call('greeter.farewell', { name });
         expect(response).toEqual(`Good bye ${name}!`);
     });
-
 });
