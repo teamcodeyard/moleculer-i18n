@@ -7,7 +7,7 @@ import type { Translation } from '../types'
  *
  * Read files synchronously from a folder, with natural sorting
  *
- * @param dir Absolute path to directory
+ * @param dir Relative path to directory
  * @returns List of object, each object represent a file structured like so: `{ filepath, name }`
  */
 export async function readFilesSync<T extends Translation>(dir: string): Promise<T[]> {

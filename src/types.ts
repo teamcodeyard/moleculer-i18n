@@ -18,6 +18,10 @@ type TranslationContext = Context<{}, { locale: string }>
 type _I18nServiceSchema = ServiceSchema<{ i18n: I18NSettings }> & ServiceSchema<ServiceSettingSchema>
 
 export type ServiceMethods = {
+  /**
+   *
+   * Proxied `t` function of {@link Polyglot}.
+   */
   t: (ctx: TranslationContext, key: string, interpolation?: InterpolationOptions | number) => string
 } & ThisType<_I18nServiceSchema>
 
