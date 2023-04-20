@@ -48,8 +48,8 @@ describe("Test with default settings", () => {
         await broker.start();
     });
 
-    afterAll(() => {
-        return broker.stop();
+    afterAll(async () => {
+        await broker.stop();
     });
 
     it("should call t action and get proper translations", async () => {
