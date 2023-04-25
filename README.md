@@ -2,7 +2,9 @@
 
 <br>
 
-Server side i18n support for [Moleculer](https://moleculer.services/) microservices framework based on [Polyglot](https://www.npmjs.com/package/node-polyglot).
+🌐 Server side i18n support for [Moleculer](https://moleculer.services/) microservices framework based on [Polyglot](https://www.npmjs.com/package/node-polyglot). [![NPM version](https://img.shields.io/npm/v/@codeyard/moleculer-i18n.svg)](https://www.npmjs.com/package/@codeyard/moleculer-i18n)
+
+
 
 <br>
 
