@@ -1,6 +1,6 @@
 {
-  "name": "moleculer-i18n",
-  "version": "0.0.1",
+  "name": "@codeyard/moleculer-i18n",
+  "version": "0.0.3",
   "description": "I18n package for Moleculer framework",
   "main": "index.js",
   "scripts": {

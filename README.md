@@ -9,7 +9,7 @@ Server side i18n support for [Moleculer](https://moleculer.services/) microservi
 # Install
 
 ```bash
-$ npm install moleculer-i18n --save
+$ npm install @codeyard/moleculer-i18n --save
 ```
 <br>
 
@@ -17,7 +17,7 @@ $ npm install moleculer-i18n --save
 
 ## Add I18nMixin to your service
 ```js
-const I18nMixin = require("moleculer-i18n");
+const I18nMixin = require("@codeyard/moleculer-i18n");
 
 broker.createService({
     name: "greeter",
