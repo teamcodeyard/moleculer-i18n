@@ -19,7 +19,7 @@ $ npm install @codeyard/moleculer-i18n --save
 ## Add I18nMixin to your service
 
 ```js
-const { I18nMixin } = require("@codeyard/moleculer-i18n");
+const { I18nMixin } = require('@codeyard/moleculer-i18n')
 
 broker.createService({
   name: 'greeter',
