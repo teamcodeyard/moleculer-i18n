@@ -1,0 +1,9 @@
+{
+  "extends": "@antfu",
+  "rules": {
+    "complexity": [
+      "error",
+      5
+    ]
+  }
+}
