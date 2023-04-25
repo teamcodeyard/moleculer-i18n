@@ -42,7 +42,7 @@ const I18nMixin = {
         i18n: {
             polyglot: new Polyglot(),
             languages: ['en'],
-            dirName: "testTranslations"
+            dirName: "translations"
         },
     },
     methods: {
