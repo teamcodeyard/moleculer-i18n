@@ -40,7 +40,7 @@
     "dev": "npx tsx watch ./src/index.ts",
     "lint:fix": "eslint .",
     "lint": "eslint --cache .",
-    "prepublishOnly": "npm build",
+    "prepublishOnly": "npm run build",
     "release": "npx bumpp && npm publish",
     "test": "vitest --coverage --globals",
     "typecheck": "tsc --noEmit"
