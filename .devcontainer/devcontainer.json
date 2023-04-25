@@ -1,0 +1,74 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+  "name": "Node.js & TypeScript",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": {
+    "update": "npm install --global @antfu/ni npkill npm pnpm taze",
+    "install": "pnpm install"
+  },
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "ibm.output-colorizer",
+        "streetsidesoftware.code-spell-checker",
+        "usernamehw.errorlens",
+        "mutantdino.resourcemonitor",
+        "zixuanchen.vitest-explorer"
+      ],
+      "settings": {
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "files.encoding": "utf8",
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true,
+          "source.fixAll": false,
+          "source.organizeImports": false
+        },
+        "editor.formatOnSave": false,
+        "editor.formatOnSaveMode": "modificationsIfAvailable",
+        "editor.formatOnType": false,
+        "eslint.codeActionsOnSave.mode": "problems",
+        "eslint.validate": [
+          "html",
+          "javascript",
+          "json",
+          "json5",
+          "jsonc",
+          "markdown",
+          "typescript",
+          "vue",
+          "yaml"
+        ],
+        "errorLens.excludeBySource": [
+          "cSpell",
+          "eslint"
+        ],
+        "errorLens.fontStyleItalic": true,
+        "errorLens.fontWeight": "100",
+        "editor.rulers": [
+          80,
+          120
+        ],
+        "editor.wordWrapColumn": 120,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.updateImportsOnFileMove.enabled": "always"
+      }
+    }
+  }
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}
