@@ -1,6 +1,6 @@
 {
   "name": "@codeyard/moleculer-i18n",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@8.3.0",
   "description": "I18n package for Moleculer framework",
   "author": "iujlaki",
@@ -22,7 +22,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
